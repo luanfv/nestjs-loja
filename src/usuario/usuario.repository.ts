@@ -11,4 +11,12 @@ export class UsuarioRepository {
   listar() {
     return this.usuarios;
   }
+
+  existeComEmail(email: string) {
+    const possivelUsuario = this.usuarios.find(
+      (usuario) => usuario.email === email,
+    );
+
+    return !!possivelUsuario;
+  }
 }
