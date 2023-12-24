@@ -15,10 +15,14 @@ import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { UsuarioEntity } from './usuario.entity';
 import { v4 as uuid } from 'uuid';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
+import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
-  constructor(private usuarioRepository: UsuarioRepository) {}
+  constructor(
+    private usuarioRepository: UsuarioRepository,
+    private readonly usuarioService: UsuarioService,
+  ) {}
 
   @Post()
   async criaUsuario(@Body() request: CriaUsuarioDTO) {
@@ -29,7 +33,7 @@ export class UsuarioController {
     usuarioEntity.nome = request.nome;
     usuarioEntity.senha = request.senha;
 
-    this.usuarioRepository.salvar(usuarioEntity);
+    await this.usuarioService.criaUsuario(usuarioEntity);
 
     return {
       usuario: new ListaUsuarioDTO(usuarioEntity.id, usuarioEntity.nome),
@@ -39,12 +43,7 @@ export class UsuarioController {
 
   @Get()
   async listaUsuarios() {
-    const usuariosSalvos = this.usuarioRepository.listar();
-    const usuariosLista = usuariosSalvos.map(
-      (usuario) => new ListaUsuarioDTO(usuario.id, usuario.nome),
-    );
-
-    return usuariosLista;
+    return this.usuarioService.listaUsuario();
   }
 
   @Put(':id')
@@ -53,7 +52,7 @@ export class UsuarioController {
     @Body() dadosParaAtualizar: AtualizaUsuarioDTO,
   ) {
     try {
-      const usuarioAtualizado = this.usuarioRepository.atualiza(
+      const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
         id,
         dadosParaAtualizar,
       );
@@ -70,7 +69,7 @@ export class UsuarioController {
   @Delete(':id')
   removeUsuario(@Param('id') id: string) {
     try {
-      const usuarioRemovido = this.usuarioRepository.remove(id);
+      const usuarioRemovido = this.removeUsuario(id);
 
       return {
         usuario: usuarioRemovido,
