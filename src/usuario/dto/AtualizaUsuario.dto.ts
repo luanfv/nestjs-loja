@@ -7,7 +7,7 @@ export class AtualizaUsuarioDTO {
   nome: string;
 
   @IsEmail(undefined, { message: 'O e-mail informado é inválido' })
-  @EmailEhUnico({ message: 'Já existe um usuário cadastrado com este e-mail' })
+  @EmailEhUnico({ message: 'Já existe um usuário com este e-mail' })
   @IsOptional()
   email: string;
 
