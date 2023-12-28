@@ -3,9 +3,9 @@ import {
   Entity,
   Column,
   CreateDateColumn,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
 
@@ -33,5 +33,5 @@ export class UsuarioEntity {
   deletedAt: string;
 
   @OneToMany(() => PedidoEntity, (pedido) => pedido.usuario)
-  pedidos: PedidoEntity[];
+  pedidos: PedidoEntity[]
 }

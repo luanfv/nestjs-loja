@@ -1,6 +1,0 @@
-POST http://localhost:3000/pedidos
-content-type: application/json
-
-{
-  "userId": "592d3d64-17f4-442d-a520-4fbe1c9d04b6"
-}
