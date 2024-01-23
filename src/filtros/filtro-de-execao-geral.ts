@@ -5,14 +5,16 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class GeneralExceptionFilter implements ExceptionFilter {
+  constructor(private readonly httpAdapter: HttpAdapterHost) {}
+
   catch(exception: any, host: ArgumentsHost) {
     const http = host.switchToHttp();
-    const response = http.getResponse<Response>();
-    const request = http.getRequest<Request>();
+    const response = http.getResponse();
+    const request = http.getRequest();
 
     const isHttpException = exception instanceof HttpException;
 
@@ -29,7 +31,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
     const body = {
       statusCode: status,
       timestamp: new Date(),
-      path: request.url,
+      path: this.httpAdapter.httpAdapter.getRequestUrl(request),
     };
 
     response.status(status).json(body);
