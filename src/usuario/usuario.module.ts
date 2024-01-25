@@ -10,5 +10,6 @@ import { HashSenhaPipe } from './pipe/hashSenha.pipe';
   imports: [TypeOrmModule.forFeature([UsuarioEntity])],
   controllers: [UsuarioController],
   providers: [UsuarioService, EmailEhUnicoValidator, HashSenhaPipe],
+  exports: [UsuarioService, HashSenhaPipe],
 })
 export class UsuarioModule {}
