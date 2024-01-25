@@ -13,14 +13,22 @@ import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { UsuarioService } from './usuario.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { HashSenhaPipe } from './pipe/hashSenha.pipe';
 
 @Controller('/usuarios')
 export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
   @Post()
-  async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
-    const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
+  async criaUsuario(
+    @Body() dadosDoUsuario: CriaUsuarioDTO,
+    @Body('senha', HashSenhaPipe) usuarioSenha: string,
+  ) {
+    const criaUsuarioInput = { ...dadosDoUsuario, senha: usuarioSenha };
+
+    const usuarioCriado = await this.usuarioService.criaUsuario(
+      criaUsuarioInput,
+    );
 
     return {
       usuario: new ListaUsuarioDTO(usuarioCriado.id, usuarioCriado.nome),
