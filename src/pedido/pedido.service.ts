@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CriaPedidoDTO } from './dto/CriaPedido.dto';
 import { AtualizaPedidoDto } from './dto/AtualizaPedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -69,8 +69,14 @@ export class PedidoService {
     });
   }
 
-  async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
+  async atualizaPedido(id: string, dto: AtualizaPedidoDto, usuarioId: string) {
     const pedido = await this.pedidoRepository.findOneBy({ id });
+
+    if (pedido.usuario.id !== usuarioId) {
+      throw new UnauthorizedException(
+        'Não foi encontrado o pedido deste usuário',
+      );
+    }
 
     Object.assign(pedido, dto);
 

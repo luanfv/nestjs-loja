@@ -24,13 +24,15 @@ export class AutorizaUsuarioGuard implements CanActivate {
       );
     }
 
-    const user = await this.jwtService
+    const user: IUsuarioJWT = await this.jwtService
       .verifyAsync<IUsuarioJWT>(token)
       .catch(() => null);
 
     if (!user) {
       throw new UnauthorizedException('JWT inválido');
     }
+
+    request.query.usuarioId = user.sub;
 
     return true;
   }

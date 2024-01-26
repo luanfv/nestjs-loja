@@ -40,8 +40,13 @@ export class PedidoController {
   @Patch(':id')
   atualizaPedido(
     @Param('id') pedidoId: string,
+    @Query('usuarioId') usuarioId: string,
     @Body() dadosDeAtualizacao: AtualizaPedidoDto,
   ) {
-    return this.pedidoService.atualizaPedido(pedidoId, dadosDeAtualizacao);
+    return this.pedidoService.atualizaPedido(
+      pedidoId,
+      dadosDeAtualizacao,
+      usuarioId,
+    );
   }
 }

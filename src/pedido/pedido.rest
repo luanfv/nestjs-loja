@@ -1,3 +1,2 @@
-GET http://localhost:3000/pedidos?usuarioId=df63818a-1726-48fb-bc7a-5f7f29181b20
-content-type: application/json
+GET http://localhost:3000/pedidos
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZjYzODE4YS0xNzI2LTQ4ZmItYmM3YS01ZjdmMjkxODFiMjAiLCJub21lIjoibHVhbiIsImlhdCI6MTcwNjI5MzE5NSwiZXhwIjoxNzA2Mzc5NTk1fQ.bKYkj-pComKUH6NH-mh1VwelvhOom9_QDhh1c5bO6tg
