@@ -1,26 +1,24 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AutenticacaoDTO } from './autenticacao.dto';
-import { UsuarioService } from 'src/usuario/usuario.service';
 import { HashSenhaPipe } from 'src/usuario/pipe/hashSenha.pipe';
+import { AutenticacaoService } from './autenticacao.service';
 
 @Controller('autenticacao')
 export class AutenticacaoController {
-  constructor(private readonly usuarioService: UsuarioService) {}
+  constructor(private readonly autenticacaoService: AutenticacaoService) {}
 
   @Post('login')
   async login(
     @Body() body: AutenticacaoDTO,
-    @Body('senha', HashSenhaPipe) senha: string,
+    @Body('senha', HashSenhaPipe) senhaComHash: string,
   ) {
-    const usuario = await this.usuarioService.buscaPorEmail(body.email);
-
-    if (usuario?.senha !== senha) {
-      throw new UnauthorizedException('E-mail ou senha incorreto');
-    }
+    const { access_token } = await this.autenticacaoService.generateToken({
+      email: body.email,
+      senha: senhaComHash,
+    });
 
     return {
-      original: body,
-      transform: usuario,
+      token: access_token,
     };
   }
 }

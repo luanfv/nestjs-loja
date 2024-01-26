@@ -29,6 +29,7 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
       useFactory: async () => ({
         store: await redisStore({
           ttl: 10 * 60 * 1e3,
+          url: '',
         }),
       }),
     }),
