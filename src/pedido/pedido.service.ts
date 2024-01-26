@@ -59,8 +59,6 @@ export class PedidoService {
   }
 
   async obtemPedidosDeUsuario(usuarioId: string) {
-    console.log(usuarioId);
-
     return this.pedidoRepository.find({
       where: {
         usuario: { id: usuarioId },

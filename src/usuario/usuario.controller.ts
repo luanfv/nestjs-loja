@@ -39,7 +39,6 @@ export class UsuarioController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   async listUsuarios() {
-    console.log('BUSQUEI DO DATABASE');
     const usuariosSalvos = await this.usuarioService.listUsuarios();
 
     return usuariosSalvos;
