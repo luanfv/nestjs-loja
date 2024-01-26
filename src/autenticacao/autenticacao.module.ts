@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoController } from './autenticacao.controller';
 import { UsuarioModule } from 'src/usuario/usuario.module';
+import { AutorizaUsuarioGuard } from './guards/autoriza-usuario.guard';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
       signOptions: { expiresIn: '24h' },
     }),
   ],
-  providers: [AutenticacaoService],
+  providers: [AutenticacaoService, AutorizaUsuarioGuard],
   controllers: [AutenticacaoController],
 })
 export class AutenticacaoModule {}
